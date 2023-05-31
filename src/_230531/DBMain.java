@@ -6,6 +6,7 @@ import _230531.model.Person;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class DBMain extends BassDAO {
     public static void main(String[] args) {
@@ -14,14 +15,35 @@ public class DBMain extends BassDAO {
         System.out.println(dbMain.insertPerson("leo"));
         System.out.println(dbMain.insertPerson("yui"));
         List<Person> personList = dbMain.findAllPerson();
-        System.out.println(personList.toString());
+        System.out.println( personList.toString() );
+        System.out.println( dbMain.findByNamePerson("leo") );
+    }
+
+    private Optional<Person> findByNamePerson(String pname) {
+        String sql = "select id, name from person where name=?";
+        try {
+            getConn();
+            psmt = conn.prepareStatement(sql);
+            psmt.setString(1, pname);
+            rs = psmt.executeQuery();
+            if ( rs.next() ) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                return Optional.of(new Person(id, name));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return null;
     }
 
     private List<Person> findAllPerson() {
         List<Person> result = new ArrayList<>();
         String sql = "select id, name from person";
         try {
-            conn = DriverManager.getConnection("jdbc:sqlite:world.db");
+            getConn();
             psmt = conn.prepareStatement(sql);
             rs = psmt.executeQuery();
             while( rs.next() ) {
@@ -80,7 +102,7 @@ public class DBMain extends BassDAO {
     private void getCodeName() {
         String sql = "select code, name from country order by code, name";
         try {
-            conn = DriverManager.getConnection("jdbc:sqlite:world.db");
+            getConn();
             psmt = conn.prepareStatement(sql);
             rs = psmt.executeQuery();
             while( rs.next() ) {
