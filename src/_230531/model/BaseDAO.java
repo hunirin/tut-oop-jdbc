@@ -2,7 +2,7 @@ package _230531.model;
 
 import java.sql.*;
 
-public class BassDAO {
+public class BaseDAO {
     protected Connection conn = null;
     protected Statement smt = null;
     protected PreparedStatement psmt = null;

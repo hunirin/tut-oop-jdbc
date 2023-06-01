@@ -2,26 +2,34 @@ package opgame.service;
 
 public class OpGame {
     int remainingAnswers;
-    int a, b;
+//    int a, b;
     String cheeringUpMsg = "한번 더 해보자";
+    IOperator op;
 
-    public OpGame(PlusOperatorLevelOne plusOperatorLevelOne) {
 
+
+    public OpGame(IOperator op) {
+        this.op = op;
     }
 
     public void makeQuestion() {
         remainingAnswers = 3;
-        a = 1;
-        b = 1;
+//        a = 1;
+//        b = 1;
+        op.setA(1);
+        op.setB(1);
     }
 
+
     public void makeQuestion(int max) {
-        a = (int)(Math.random() * max);
-        b = (int)(Math.random() * (max-a));
+//        a = (int)(Math.random() * max);
+//        b = (int)(Math.random() * (max-a));
+        op.generateQuestion(max);
     }
 
     public String getQuestion() {
-        return String.format("%d + %d = ", a, b);
+//        return String.format("%d + %d = ", a, b);
+        return op.getQuestionMsg();
     }
 
     public int getRemainingAnswers() {
@@ -30,7 +38,8 @@ public class OpGame {
 
     public boolean isAnswer(int answer) {
         remainingAnswers--;
-        return (a + b) == answer;
+//        return (a + b) == answer;
+        return op.isEquals(answer);
     }
 
     public String getCheeringUpMsg() {

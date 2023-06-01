@@ -2,7 +2,7 @@ package _230531.model;
 
 import java.sql.SQLException;
 
-public class CountryDAO extends BassDAO{
+public class CountryDAO extends BaseDAO {
     private void getCodeName() {
         String sql = "select code, name from country order by code, name";
         try {

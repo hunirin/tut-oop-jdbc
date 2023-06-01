@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PersonDAO extends BassDAO{
+public class PersonDAO extends BaseDAO {
     public Optional<Person> findByNamePerson(String pname) {
         String sql = "select id, name from person where name=?";
         try {
